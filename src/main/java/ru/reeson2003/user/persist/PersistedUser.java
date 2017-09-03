@@ -72,7 +72,7 @@ public class PersistedUser {
         this.birthDate = birthDate;
     }
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }

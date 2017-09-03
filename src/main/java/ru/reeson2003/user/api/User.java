@@ -29,7 +29,17 @@ public interface User {
 
     void setEmail(String email);
 
+    String getLogin();
+
+    String getPassword();
+
     boolean isLoggedIn();
 
     void setLoggedIn(boolean loggedIn);
+
+    Date getRegisterDate();
+
+    Date getUpdateDate();
+
+    void delete();
 }

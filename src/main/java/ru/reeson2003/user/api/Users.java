@@ -1,5 +1,8 @@
 package ru.reeson2003.user.api;
 
+import ru.reeson2003.user.exception.CreateUserException;
+import ru.reeson2003.user.exception.SearchUserException;
+
 import java.util.List;
 
 /**
@@ -9,9 +12,9 @@ import java.util.List;
  * @author Pavel Gavrilov.
  */
 public interface Users {
-    UserBuilder newUser(String login, String password);
+    UserBuilder newUser(String login, String password) throws CreateUserException;
 
     List<User> getUsers();
 
-    void deleteUser(User user);
+    User findOne(String login) throws SearchUserException;
 }

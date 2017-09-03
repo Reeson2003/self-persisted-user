@@ -1,12 +1,19 @@
 package ru.reeson2003.user.impl;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.api.UserBuilder;
 import ru.reeson2003.user.api.Users;
+import ru.reeson2003.user.exception.CreateUserException;
+import ru.reeson2003.user.exception.SearchUserException;
+import ru.reeson2003.user.persist.PersistedUser;
 import ru.reeson2003.user.persist.UserJpaRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,82 +25,99 @@ import java.util.List;
  */
 @Service
 public class UsersImpl implements Users {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsersImpl.class);
+    private final UserJpaRepository repository;
+
     @Autowired
-    private UserJpaRepository repository;
+    public UsersImpl(UserJpaRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public UserBuilder newUser(String login, String password) {
-        return null;
+    public UserBuilder newUser(String login, String password) throws CreateUserException{
+        return new UserBuilderImpl(login, password);
     }
 
     @Override
     public List<User> getUsers() {
-        return null;
+        return getAllUsers(repository.findAll());
     }
 
     @Override
-    public void deleteUser(User user) {
+    public User findOne(String login) throws SearchUserException {
+        PersistedUser persistedUser = repository.findByLogin(login);
+        if (persistedUser != null)
+            return new SelfPersistedUser(persistedUser, repository);
+        else
+            throw new SearchUserException();
+    }
 
+    private List<User> getAllUsers(List<PersistedUser> persistedUsers) {
+        List<User> result = new ArrayList<>(persistedUsers.size());
+        for (PersistedUser persistedUser : persistedUsers) {
+            result.add(new SelfPersistedUser(persistedUser, repository));
+        }
+        return result;
     }
 
     private class UserBuilderImpl implements UserBuilder {
-        private String firstName;
-        private String middleName;
-        private String lastName;
-        private Date birthDate;
-        private String email;
-        private String login;
-        private String password;
-        private Date registerDate;
-        private Date updateDate;
-        private boolean loggedIn;
+        private PersistedUser persistedUser;
 
-        public UserBuilderImpl(String login, String password) {
-            this.login = login;
-            this.password = password;
+        UserBuilderImpl(String login, String password) throws CreateUserException{
+            PersistedUser persistedUser = repository.findByLogin(login);
+            if (persistedUser != null)
+                throw new CreateUserException("Login [" + login + "] already exists");
+            else {
+                persistedUser = new PersistedUser();
+                persistedUser.setLogin(login);
+                persistedUser.setPassword(password);
+                repository.save(persistedUser);
+                this.persistedUser = persistedUser;
+            }
         }
 
         @Override
         public UserBuilder firstName(String firstName) {
-            this.firstName = firstName;
+            persistedUser.setFirstName(firstName);
             return this;
         }
 
         @Override
         public UserBuilder middleName(String middleName) {
-            this.middleName = middleName;
+            persistedUser.setMiddleName(middleName);
             return this;
         }
 
         @Override
         public UserBuilder lastName(String lastName) {
-            this.lastName = lastName;
+            persistedUser.setLastName(lastName);
             return this;
         }
 
         @Override
         public UserBuilder birthDate(Date birthDate) {
-            this.birthDate = birthDate;
+            persistedUser.setBirthDate(birthDate);
             return this;
         }
 
         @Override
         public UserBuilder email(String email) {
-            this.email = email;
+            persistedUser.setEmail(email);
             return this;
         }
 
         @Override
         public UserBuilder loggedIn(boolean loggedIn) {
-            this.loggedIn = loggedIn;
+            persistedUser.setLoggedIn(loggedIn);
             return this;
         }
 
         @Override
         public User build() {
-            this.registerDate = new Date();
-            this.updateDate = new Date();
-            return null;
+            Date now = new Date();
+            persistedUser.setUpdateDate(now);
+            persistedUser.setUpdateDate(now);
+            return new SelfPersistedUser(persistedUser, repository);
         }
     }
 }
