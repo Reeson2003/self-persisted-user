@@ -6,9 +6,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="ru.reeson2003.user"/>
+    <context:component-scan base-package="ru.reeson2003.origin"/>
 
-    <jpa:repositories base-package="ru.reeson2003.user.persist"/>
+    <jpa:repositories base-package="ru.reeson2003.origin.persist"/>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">

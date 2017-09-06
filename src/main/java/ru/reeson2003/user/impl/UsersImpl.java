@@ -1,6 +1,5 @@
 package ru.reeson2003.user.impl;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@
      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
 
     <persistence-unit name="jpaData" transaction-type="RESOURCE_LOCAL">
-        <class>ru.reeson2003.user.persist.PersistedUser</class>
+        <class>ru.reeson2003.origin.persist.PersistedUser</class>
         <properties>
             <property name="driverClassName" value="org.h2.Driver"/>
             <property name="url" value="jdbc:h2:./persist_user"/>
