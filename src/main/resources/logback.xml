@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <logger name="ru.reeson2003.persist_user" level="debug"
+    <logger name="ru.reeson2003.user" level="debug"
             additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
