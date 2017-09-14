@@ -19,5 +19,5 @@ import ru.reeson2003.user.api.Users;
 @TransactionConfiguration(transactionManager="transactionManager")
 public abstract class AbstractTest extends Assert {
     @Autowired
-    Users users;
+    protected Users users;
 }

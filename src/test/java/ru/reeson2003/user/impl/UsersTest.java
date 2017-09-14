@@ -4,6 +4,7 @@ import org.junit.Test;
 import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.exception.CreateUserException;
 import ru.reeson2003.user.exception.SearchUserException;
+import ru.reeson2003.user.persist.PersistedUser;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Pavel Gavrilov.
  */
-public class UsersTest extends AbstractTest{
+public class UsersTest extends AbstractTest {
 
     @Test
     @Transactional
@@ -53,7 +54,7 @@ public class UsersTest extends AbstractTest{
         final String password1 = "11223344";
         final String login2 = "Franky";
         final String password2 = "000000";
-        User tommy = users.newUser(login1,password1).build();
+        User tommy = users.newUser(login1, password1).build();
         User franky = users.newUser(login2, password2).build();
         List<User> userList = users.getUsers();
         assertNotNull("List of users is null", userList);
@@ -66,5 +67,24 @@ public class UsersTest extends AbstractTest{
             assertEquals(one.getLogin(), franky.getLogin());
             assertEquals(two.getLogin(), tommy.getLogin());
         }
+    }
+
+    @Test
+    @Transactional
+    public void parallelUserModificationTest() throws CreateUserException, SearchUserException {
+        final String login = "Tommy";
+        final String password = "11223344";
+        final String email = "tommy@mail.ru";
+        User user = users.newUser(login, password).build();
+        assertNotNull("User is null", user);
+        User clone = users.findOne(login);
+        assertNotNull("User is null", clone);
+        user.setEmail(email);
+        String userEmail = user.getEmail();
+        assertNotNull("Email is null", userEmail);
+        assertEquals(email, userEmail);
+        String cloneEmail = clone.getEmail();
+        assertNotNull("Email is null", cloneEmail);
+        assertEquals(userEmail, cloneEmail);
     }
 }

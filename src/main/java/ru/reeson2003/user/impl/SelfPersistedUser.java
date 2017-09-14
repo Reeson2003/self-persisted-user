@@ -24,7 +24,7 @@ public class SelfPersistedUser implements User {
 
     @Override
     public String getFirstName() {
-        return persistedUser.getFirstName();
+        return fetchFromRepository().getFirstName();
     }
 
     @Override
@@ -36,7 +36,7 @@ public class SelfPersistedUser implements User {
 
     @Override
     public String getMiddleName() {
-        return persistedUser.getMiddleName();
+        return fetchFromRepository().getMiddleName();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SelfPersistedUser implements User {
 
     @Override
     public String getLastName() {
-        return persistedUser.getLastName();
+        return fetchFromRepository().getLastName();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SelfPersistedUser implements User {
 
     @Override
     public Date getBirthDate() {
-        return persistedUser.getBirthDate();
+        return fetchFromRepository().getBirthDate();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SelfPersistedUser implements User {
 
     @Override
     public String getEmail() {
-        return persistedUser.getEmail();
+        return fetchFromRepository().getEmail();
     }
 
     @Override
@@ -84,17 +84,17 @@ public class SelfPersistedUser implements User {
 
     @Override
     public String getLogin() {
-        return persistedUser.getLogin();
+        return fetchFromRepository().getLogin();
     }
 
     @Override
     public String getPassword() {
-        return persistedUser.getPassword();
+        return fetchFromRepository().getPassword();
     }
 
     @Override
     public boolean isLoggedIn() {
-        return persistedUser.isLoggedIn();
+        return fetchFromRepository().isLoggedIn();
     }
 
     @Override
@@ -106,17 +106,21 @@ public class SelfPersistedUser implements User {
 
     @Override
     public Date getRegisterDate() {
-        return persistedUser.getRegisterDate();
+        return fetchFromRepository().getRegisterDate();
     }
 
     @Override
     public Date getUpdateDate() {
-        return persistedUser.getUpdateDate();
+        return fetchFromRepository().getUpdateDate();
     }
 
     @Override
     public void delete() {
         repository.delete(persistedUser);
         persistedUser = new DeletedPersistedUser();
+    }
+
+    PersistedUser fetchFromRepository() {
+        return repository.findOne(persistedUser.getId());
     }
 }
