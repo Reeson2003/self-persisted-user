@@ -61,7 +61,7 @@ public class CachedUsersTest extends AbstractTest {
             for (int i = 0; i < times; i++) {
                 email = user.getEmail();
             }
-//            System.out.println(email);
+            System.out.println(email);
             long after = System.nanoTime();
             LOGGER.debug("Iteration [" + j + "], time [" + (after - before) + "]");
         }
