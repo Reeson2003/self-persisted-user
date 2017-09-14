@@ -23,32 +23,38 @@ public class CachedUserBuilder implements UserBuilder {
 
     @Override
     public UserBuilder firstName(String firstName) {
-        return userBuilder.firstName(firstName);
+        this.userBuilder = userBuilder.firstName(firstName);
+        return this;
     }
 
     @Override
     public UserBuilder middleName(String middleName) {
-        return userBuilder.middleName(middleName);
+        this.userBuilder = userBuilder.middleName(middleName);
+        return this;
     }
 
     @Override
     public UserBuilder lastName(String lastName) {
-        return userBuilder.lastName(lastName);
+        this.userBuilder = userBuilder.lastName(lastName);
+        return this;
     }
 
     @Override
     public UserBuilder birthDate(Date birthDate) {
-        return userBuilder.birthDate(birthDate);
+        this.userBuilder = userBuilder.birthDate(birthDate);
+        return this;
     }
 
     @Override
     public UserBuilder email(String email) {
-        return userBuilder.email(email);
+        this.userBuilder = userBuilder.email(email);
+        return this;
     }
 
     @Override
     public UserBuilder loggedIn(boolean loggedIn) {
-        return userBuilder.loggedIn(loggedIn);
+        this.userBuilder = userBuilder.loggedIn(loggedIn);
+        return this;
     }
 
     @Override
