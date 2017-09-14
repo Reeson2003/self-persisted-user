@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Date: 05.09.2017.
@@ -32,7 +34,10 @@ public class CachedUsersImpl implements Users {
 
     @Override
     public List<User> getUsers() {
-        return ;
+        return users.getUsers()
+                .stream()
+                .map(x -> wrapCached(x, cache))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -41,6 +46,11 @@ public class CachedUsersImpl implements Users {
             return cache.get(login);
         else {
             User user = users.findOne(login);
+            return wrapCached(user, cache);
         }
+    }
+
+    private User wrapCached(User origin, Map<String, User> cache) {
+        return new CachedUserImpl(origin, cache);
     }
 }

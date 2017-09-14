@@ -16,7 +16,7 @@ public class CachedUserBuilder implements UserBuilder {
     private UserBuilder userBuilder;
     private Map<String, User> cache;
 
-    public CachedUserBuilder(UserBuilder userBuilder, Map<String, User> cache) {
+    CachedUserBuilder(UserBuilder userBuilder, Map<String, User> cache) {
         this.userBuilder = userBuilder;
         this.cache = cache;
     }

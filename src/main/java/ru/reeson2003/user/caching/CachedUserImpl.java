@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class CachedUserImpl implements User {
     private User origin;
-    private Map<String, User>  cache;
+    private Map<String, User> cache;
 
     private String firstName;
     private String middleName;
@@ -27,7 +27,7 @@ public class CachedUserImpl implements User {
     private Date updateDate;
 
 
-    public CachedUserImpl(User origin, Map<String, User> cache) {
+    CachedUserImpl(User origin, Map<String, User> cache) {
         this.origin = origin;
         this.cache = cache;
         actualize();
@@ -137,5 +137,12 @@ public class CachedUserImpl implements User {
         this.registerDate = origin.getRegisterDate();
         this.updateDate = origin.getUpdateDate();
         cache.put(login, this);
+    }
+
+    private User getCached() {
+        User result = cache.get(login);
+        if (result != null)
+            return result;
+        throw new RuntimeException("Cached user with login '" + login + "' not found in cache");
     }
 }
