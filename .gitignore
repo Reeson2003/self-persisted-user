@@ -55,3 +55,8 @@ fabric.properties
 /origin-api.iml
 .gitignore
 .idea/
+/user-api/user-api.iml
+persist_user.mv.db
+user-api/src/main/main.iml
+user-api/src/main/resources/
+user-api/src/test/
