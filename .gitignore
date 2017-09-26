@@ -1,3 +1,6 @@
 .gitignore
 .idea/
 /user-persist-project.iml
+self-persisted-user/persist_user.mv.db
+self-persisted-user/target/
+user-api/target/
