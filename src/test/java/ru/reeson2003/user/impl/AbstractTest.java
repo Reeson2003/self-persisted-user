@@ -15,7 +15,7 @@ import ru.reeson2003.user.api.Users;
  * @author Pavel Gavrilov.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:test-context.xml")
+@ContextConfiguration("classpath*:user-persist-context.xml")
 @TransactionConfiguration(transactionManager="transactionManager")
 public abstract class AbstractTest extends Assert {
     @Autowired
