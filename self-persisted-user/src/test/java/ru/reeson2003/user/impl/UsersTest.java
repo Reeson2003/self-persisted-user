@@ -4,7 +4,6 @@ import org.junit.Test;
 import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.exception.CreateUserException;
 import ru.reeson2003.user.exception.SearchUserException;
-import ru.reeson2003.user.persist.PersistedUser;
 
 import javax.transaction.Transactional;
 import java.util.List;
