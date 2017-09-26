@@ -30,7 +30,7 @@ public class UsersController {
         return users.getUsers();
     }
 
-    @RequestMapping(value = "/users")
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
     public boolean newUser(@RequestParam("login") String login, @RequestParam("password") String password) {
         try {
             users.newUser(login, password).build();
