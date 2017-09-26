@@ -1,11 +1,11 @@
 package ru.reeson2003.user.impl;
 
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.exception.CreateUserException;
 import ru.reeson2003.user.exception.SearchUserException;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
