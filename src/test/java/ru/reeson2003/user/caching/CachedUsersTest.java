@@ -3,6 +3,7 @@ package ru.reeson2003.user.caching;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class CachedUsersTest extends AbstractTest {
 
     @Test
     @Transactional
+    @Ignore
     public void performanceBoostTest() throws CreateUserException {
         int times = 1_000_000;
         final String login = "Tommy";
@@ -66,7 +68,6 @@ public class CachedUsersTest extends AbstractTest {
             LOGGER.debug("Iteration [" + j + "], time [" + (after - before) + "]");
         }
         LOGGER.debug("==================");
-        long time = System.nanoTime() - start;
-        return time;
+        return System.nanoTime() - start;
     }
 }

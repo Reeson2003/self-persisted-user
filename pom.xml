@@ -11,7 +11,6 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <origin.persist.api.version>1.1-SNAPSHOT</origin.persist.api.version>
         <junit.version>4.12</junit.version>
         <spring.version>4.3.10.RELEASE</spring.version>
         <spring.data.version>1.11.6.RELEASE</spring.data.version>
@@ -69,13 +68,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
-        </dependency>
-
-        <!--API-->
-        <dependency>
-            <groupId>ru.reeson2003</groupId>
-            <artifactId>origin-persist-api</artifactId>
-            <version>${origin.persist.api.version}</version>
         </dependency>
 
         <!--Test-->
