@@ -8,5 +8,10 @@
     <artifactId>user-api</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <parent>
+        <groupId>ru.reeson2003.user</groupId>
+        <artifactId>user-persist-project</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
 </project>

@@ -6,11 +6,9 @@ import ru.reeson2003.user.api.Users;
 import ru.reeson2003.user.exception.CreateUserException;
 import ru.reeson2003.user.exception.SearchUserException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
