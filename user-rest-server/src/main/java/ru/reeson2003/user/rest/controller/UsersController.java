@@ -5,6 +5,7 @@ import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.api.Users;
 import ru.reeson2003.user.exception.CreateUserException;
 import ru.reeson2003.user.exception.SearchUserException;
+import ru.reeson2003.user.rest.controller.stub.UserStub;
 import ru.reeson2003.user.util.UsersProvider;
 
 import javax.annotation.PostConstruct;
@@ -25,21 +26,24 @@ public class UsersController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> getAll() {
-        return users.getUsers();
+        try {
+            return users.getUsers();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
     public boolean newUser(@RequestParam("login") String login, @RequestParam("password") String password) {
         try {
             users.newUser(login, password).build();
             return true;
-        } catch (CreateUserException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return false;
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public User getByLogin(@RequestParam("login") String login) {
         try {
             return users.findOne(login);
@@ -48,9 +52,9 @@ public class UsersController {
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user", method = RequestMethod.PUT)
     @ResponseBody
-    public boolean updateUser(@RequestBody() User user) {
+    public boolean updateUser(@RequestBody() UserStub user) {
         return update(user);
     }
 
@@ -69,15 +73,14 @@ public class UsersController {
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
-    @ResponseBody
-    public boolean deleteUser(@RequestBody() User user) {
-        return delete(user);
+    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    public boolean deleteUser(@RequestParam() String login) {
+        return delete(login);
     }
 
-    private boolean delete(User user) {
+    private boolean delete(String login) {
         try {
-            User persisted = users.findOne(user.getLogin());
+            User persisted = users.findOne(login);
             persisted.delete();
             return true;
         } catch (Exception e) {
