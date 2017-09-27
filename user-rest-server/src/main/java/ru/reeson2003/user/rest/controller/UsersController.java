@@ -1,12 +1,10 @@
 package ru.reeson2003.user.rest.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.api.Users;
 import ru.reeson2003.user.exception.CreateUserException;
+import ru.reeson2003.user.exception.SearchUserException;
 import ru.reeson2003.user.util.UsersProvider;
 
 import javax.annotation.PostConstruct;
@@ -37,6 +35,52 @@ public class UsersController {
             return true;
         } catch (CreateUserException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public User getByLogin(@RequestParam("login") String login) {
+        try {
+            return users.findOne(login);
+        } catch (SearchUserException e) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    @ResponseBody
+    public boolean updateUser(@RequestBody() User user) {
+        return update(user);
+    }
+
+    private boolean update(User user) {
+        try {
+            User persisted = users.findOne(user.getLogin());
+            persisted.setEmail(user.getEmail());
+            persisted.setBirthDate(user.getBirthDate());
+            persisted.setFirstName(user.getFirstName());
+            persisted.setLastName(user.getLastName());
+            persisted.setLoggedIn(user.isLoggedIn());
+            persisted.setMiddleName(user.getMiddleName());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
+    @ResponseBody
+    public boolean deleteUser(@RequestBody() User user) {
+        return delete(user);
+    }
+
+    private boolean delete(User user) {
+        try {
+            User persisted = users.findOne(user.getLogin());
+            persisted.delete();
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }
