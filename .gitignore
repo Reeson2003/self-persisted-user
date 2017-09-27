@@ -11,3 +11,4 @@ persist_user.mv.db
 user-rest-server/src/main/resources/
 user-rest-server/src/test/
 user-rest-server/target/
+user-api/user-api.iml
