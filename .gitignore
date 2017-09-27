@@ -5,10 +5,7 @@ self-persisted-user/persist_user.mv.db
 self-persisted-user/target/
 user-api/target/
 /user-rest-server/user-rest-server.iml
-!/user-api/user-api.iml
 /self-persisted-user/self-persisted-user.iml
 persist_user.mv.db
-user-rest-server/src/main/resources/
-user-rest-server/src/test/
 user-rest-server/target/
 user-api/user-api.iml
