@@ -4,3 +4,8 @@
 self-persisted-user/persist_user.mv.db
 self-persisted-user/target/
 user-api/target/
+/user-rest-server/user-rest-server.iml
+/self-persisted-user/self-persisted-user.iml
+persist_user.mv.db
+user-rest-server/target/
+user-api/user-api.iml

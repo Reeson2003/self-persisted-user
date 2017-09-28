@@ -7,13 +7,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import ru.reeson2003.user.api.User;
 import ru.reeson2003.user.api.Users;
 import ru.reeson2003.user.exception.CreateUserException;
 import ru.reeson2003.user.impl.AbstractTest;
 
 
-import javax.transaction.Transactional;
 
 public class CachedUsersTest extends AbstractTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(CachedUsersTest.class);
