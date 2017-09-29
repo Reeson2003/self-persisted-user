@@ -9,3 +9,4 @@ user-api/target/
 persist_user.mv.db
 user-rest-server/target/
 user-api/user-api.iml
+/user-rest-client/user-rest-client.iml
