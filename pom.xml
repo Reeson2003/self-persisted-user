@@ -13,6 +13,7 @@
         <module>self-persisted-user</module>
         <module>user-api</module>
         <module>user-rest-server</module>
+        <module>user-rest-client</module>
     </modules>
 
     <properties>
