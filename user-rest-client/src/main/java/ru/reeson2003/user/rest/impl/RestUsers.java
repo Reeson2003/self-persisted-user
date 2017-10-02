@@ -8,6 +8,7 @@ import ru.reeson2003.user.exception.SearchUserException;
 import ru.reeson2003.user.rest.client.service.RestClientService;
 import ru.reeson2003.user.rest.client.stub.UserStub;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,10 +42,15 @@ public class RestUsers implements Users {
     }
 
     private List<User> wrapUsers(List<User> origins) {
-        return origins
-                .stream()
-                .map(this::wrapUser)
-                .collect(Collectors.toList());
+        List<User> result = new ArrayList<>(origins.size());
+        for (User o : origins) {
+            result.add(wrapUser(o));
+        }
+//        return origins
+//                .stream()
+//                .map(this::wrapUser)
+//                .collect(Collectors.toList());
+        return result;
     }
 
     private User wrapUser(User user) {
