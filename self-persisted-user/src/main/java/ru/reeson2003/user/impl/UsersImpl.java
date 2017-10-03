@@ -114,7 +114,7 @@ public class UsersImpl implements Users {
         @Override
         public User build() {
             Date now = new Date();
-            persistedUser.setUpdateDate(now);
+            persistedUser.setRegisterDate(now);
             persistedUser.setUpdateDate(now);
             repository.save(persistedUser);
             return new SelfPersistedUser(persistedUser, repository);
