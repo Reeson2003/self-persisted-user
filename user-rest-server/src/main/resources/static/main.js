@@ -5,7 +5,11 @@ UserApp.Models = {};
 UserApp.Views = {};
 UserApp.Collections = {};
 
-
+/*
+ |----------|
+ |User model|
+ |----------|
+ */
 UserApp.Models.User = Backbone.Model.extend({
     defaults: {
         firstName: "",
@@ -19,60 +23,155 @@ UserApp.Models.User = Backbone.Model.extend({
         registerDate: "",
         updateDate: ""
     },
-
+    isDefaults: true,
+    url: '/user',
+    set: function (attributes, options) {
+        attributes.birthDate = new Date(attributes.birthDate);
+        attributes.registerDate = new Date(attributes.registerDate);
+        attributes.updateDate = new Date(attributes.updateDate);
+        return Backbone.Model.prototype.set.call(this, attributes, options)
+    },
+    sync: function () {
+        var context = this;
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: this.url,
+            data: {'login': this.get('login')},
+            success: function (response) {
+                if (response == "")
+                    context.destroy();
+                context.set(response);
+            }
+        })
+    },
+    add: function (callback) {
+        var context = this;
+        context['onAdd'] = callback;
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: this.url,
+            data: {'login': this.get('login'), 'password': this.get('password')},
+            success: function (response) {
+                if (response === true) {
+                    context.update();
+                    context.onAdd();
+                }
+            }
+        });
+    },
     delete: function () {
-        // todo
+        var context = this;
+        $.ajax({
+            type: "DELETE",
+            cache: false,
+            url: this.url + "?login=" + this.get('login'),
+            success: function (response) {
+                if (response === true)
+                    context.destroy();
+            }
+        });
+    },
+    update: function () {
+        var context = this;
+        $.ajax({
+            type: 'PUT',
+            cache: false,
+            url: this.url,
+            data: JSON.stringify(this.attributes),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response === false)
+                    context.destroy();
+            }
+        });
     }
-
 });
 
 UserApp.Collections.Users = Backbone.Collection.extend({
     model: UserApp.Models.User,
-    update: function () {
-        $.ajax({
-            url: '/users',
-            method: 'GET',
-            cache: false,
-            success: function (response) {
-                this.models = response;
-            }
-        })
-    }
+    url: '/users'
 });
+
 
 var Users = new UserApp.Collections.Users;
 
+UserApp.Views.NewUserEditor = Backbone.View.extend({
+    el: $('#newUserEditorHolder'),
+    template: _.template($('#newUserEditorTemplate').html()),
+    events: {
+        'submit #newUserForm' : 'onSubmit'
+    },
+    render: function () {
+        this.$el.html(this.template());
+        return this;
+    },
+    onSubmit: function (event) {
+        event.preventDefault();
+        var formData = $('#newUserForm').serializeArray();
+        var formObject = {};
+        for (var i in formData) {
+            formObject[formData[i]['name']] = formData[i]['value'];
+        }
+        if (formObject.loggedIn)
+            formObject.loggedIn = true;
+        else
+            formObject.loggedIn = false;
+        this.model = new UserApp.Models.User(formObject);
+        this.model.add(function () {
+            Users.fetch();
+        });
+    }
+});
+
 UserApp.Views.UserListItem = Backbone.View.extend({
-    tagName: 'div',
+    tagName: 'li',
+    className: 'listItem',
     template: _.template($("#userListItemTemplate").html()),
     events: {
-        'click': console.log("CLICK")
+        'click': function () {
+            console.log(this.model.get('login'))
+            this.model.delete();
+        }
     },
     initialize: function (user) {
         this.model = user;
-        this.model.bind('change', this.render, this);
+        this.model.bind('sync', this.render, this);
         this.model.bind('destroy', this.remove, this);
     },
     render: function () {
-        this.$el.html(this.template(this.model.toJSON()));
+        this.$el.html(this.template(this.model.attributes));
+        return this;
     }
 });
 
 UserApp.Views.UserList = Backbone.View.extend({
-    tagName: 'ul',
     el: $('#userList'),
-    model: Users,
+    model: UserApp.Collections.Users,
+    initialize: function (collection) {
+        this.model = collection;
+    },
     render: function () {
-        var html = '';
-        Users.each(function (user) {
-            html += '<li>';
-            html += user.render();
-            html += '</li>'
-            console.log(html)
-        })
+        this.$el.empty();
+        this.model.each(function (user) {
+            var listItemView = new UserApp.Views.UserListItem(user);
+            this.$el.append(listItemView.render().el);
+        }, this);
+        return this;
     }
 });
 
+var App = new UserApp.Views.UserList(Users);
+
+var NewUserForm = new UserApp.Views.NewUserEditor();
+NewUserForm.render();
+
+Users.on('sync', function () {
+    App.render();
+});
+
+Users.fetch();
 
 /*
  function renderUserTable(userList) {

@@ -11,14 +11,55 @@
 
     <link rel="StyleSheet" href="main.css" type="text/css"/>
 </head>
-<header></header>
+<header>
+    <div>
+        <h1>Divine user editor</h1>
+    </div>
+</header>
 <body>
-
-<div id="userList">
-    <script type="text/template" id="userListItemTemplate">
-        <strong>Login: <%= login%></strong>
-        <br> First name: <%= firstName%>, Last name: <%= lastName%>
+<div id="newUserEditorHolder">
+    <script type="text/template" id="newUserEditorTemplate">
+        <form id="newUserForm">
+            <fieldset>
+                <legend>New user</legend>
+                <label for="login">login</label>
+                <input type="text" id="login" name="login"><br>
+                <label for="password">password</label>
+                <input type="text" id="password" name="password"><br>
+                <label for="firstName">first name</label>
+                <input type="text" id="firstName" name="firstName"><br>
+                <label for="middleName">middle name</label>
+                <input type="text" id="middleName" name="middleName"><br>
+                <label for="lastName">last name</label>
+                <input type="text" id="lastName" name="lastName"><br>
+                <label for="birthDate">birth date</label>
+                <input type="date" id="birthDate" name="birthDate"><br>
+                <label for="email">email</label>
+                <input type="text" id="email" name="email"><br>
+                <label for="loggedIn">is logged in</label>
+                <input type="checkbox" id="loggedIn" name="loggedIn"><br>
+                <input type="submit">
+            </fieldset>
+        </form>
     </script>
+</div>
+<div id="userListHolder">
+    <script type="text/template" id="userListItemTemplate">
+        <div>
+            <strong>Login: <%= login%></strong><br><%= firstName%>&nbsp;<%= middleName%>&nbsp;<%= lastName%>
+        </div>
+    </script>
+    <div>
+        <h2>Click to delete</h2>
+    </div>
+    <ul id="userList" class="userList">
+        <li class="listItem">
+            <strong>Login: john</strong>&nbsp;John&nbsp;Doe
+        </li>
+        <li class="listItem">
+            <strong>Login: jane</strong>&nbsp;Jane&nbsp;Doe
+        </li>
+    </ul>
 </div>
 
 <script src="main.js"></script>

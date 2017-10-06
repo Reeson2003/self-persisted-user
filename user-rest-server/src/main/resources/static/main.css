@@ -1,6 +1,16 @@
-table {
-    border: solid 2px;
+element {
+    userListBackgroundColer: #b7ded5;
 }
-td {
-    border: solid 1px;
+
+.userList {
+    padding: 10px 30px;
+    background-color: #b7ded5;
+}
+
+.listItem {
+    background-color: #b7ded5;
+}
+
+.listItem:hover {
+    background-color: #8adedc;
 }
