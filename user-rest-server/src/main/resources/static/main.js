@@ -55,8 +55,7 @@ UserApp.Models.User = Backbone.Model.extend({
             data: {'login': this.get('login'), 'password': this.get('password')},
             success: function (response) {
                 if (response === true) {
-                    context.update();
-                    context.onAdd();
+                    context.update(context.onAdd);
                 }
             }
         });
@@ -73,8 +72,9 @@ UserApp.Models.User = Backbone.Model.extend({
             }
         });
     },
-    update: function () {
+    update: function (callback) {
         var context = this;
+        context['onUpdate'] = callback;
         $.ajax({
             type: 'PUT',
             cache: false,
@@ -84,6 +84,7 @@ UserApp.Models.User = Backbone.Model.extend({
             success: function (response) {
                 if (response === false)
                     context.destroy();
+                context.onUpdate();
             }
         });
     }
